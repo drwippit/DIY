@@ -1,10 +1,11 @@
 import fetch from 'node-fetch';
 import 'dotenv/config'
+import { createContact } from './mailchimp_api.js';
 
 var options = {
     'method': 'POST',
     'headers': {
-        'Authorization': process.env.API_KEY,
+        'Authorization': process.env.DUDA_API_KEY,
         'Content-Type': 'application/json'
     }
 }
@@ -40,7 +41,6 @@ export function updateSite(siteName, businessData) {
 
 export function getPreviewLink(siteName, email) {
     var link = `${process.env.PREVIEW_HOST}${siteName}?device=desktop`
-    console.log(link)
+    createContact(email)
     return link
-        //call mailchimp
 }

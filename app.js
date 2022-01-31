@@ -25,11 +25,3 @@ app.post('/', (req, res) => {
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`)
 });
-
-// create API
-// Create Site with connected template
-//Update Site with form contents
-// Get Preview URL
-//Send to MailChimp
-// Send email from MailChimp
-// Succcess Message for API
