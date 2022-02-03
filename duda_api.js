@@ -11,12 +11,12 @@ var options = {
 }
 
 var serviceList = {
-    "boarding": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "boarding" } },
-    "wellness": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "wellness" } },
-    "emergencies": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "emergencies" } },
-    "medicine": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "medicine" } },
-    "surgeries": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "surgeries" } },
-    "grooming": { "data": { "image": "https://irp.cdn-website.com/md/dmtmpl/aad0f58c-db98-441d-823b-d7a4073ea56d/dms3rep/multi/CCB-6d3eb3f9.svg", "alt-text": "grooming" } }
+    "boarding": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/boarding-1.png", "alt-text": "boarding" } },
+    "wellness": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/wellness-1.png", "alt-text": "wellness" } },
+    "emergencies": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/emergencies-1.png", "alt-text": "emergencies" } },
+    "medicine": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/general-1.png", "alt-text": "medicine" } },
+    "surgeries": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/surgeries-1.png", "alt-text": "surgeries" } },
+    "grooming": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/grooming-1.png", "alt-text": "grooming" } }
 }
 
 
@@ -66,7 +66,7 @@ export function addServices(siteName, services) {
 
 
 function updateCollection(siteName, row) {
-    var url = `https://api.duda.co/api/sites/multiscreen/${siteName}/collection/services/row`
+    var url = `https://api.duda.co/api/sites/multiscreen/${siteName}/collection/Services/row`
     options.body = JSON.stringify([row])
 
     return fetch(url, options)
