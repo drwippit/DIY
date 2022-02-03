@@ -1,19 +1,21 @@
 // import serverless from 'serverless-http';
 import express from 'express';
 import 'dotenv/config'
-import { createSite, updateSite, getPreviewLink } from './duda_api.js';
+import { createSite, updateSite, getPreviewLink, addServices } from './duda_api.js';
 const app = express();
 app.use(express.json());
 const port = 3000;
 
 app.post('/create', (req, res) => {
+
     var businessEmail = req.body.email
     createSite().then(response => {
         if (response.status != 200) {
             return response
         } else {
             var siteName = response.data.site_name
-            updateSite(siteName, req.body)
+            updateSite(siteName, req.body.site_data)
+            addServices(siteName, req.body.services)
             return {
                 status: 200,
                 data: getPreviewLink(siteName, businessEmail)
