@@ -1,12 +1,12 @@
+// import serverless from 'serverless-http';
 import express from 'express';
 import 'dotenv/config'
 import { createSite, updateSite, getPreviewLink } from './duda_api.js';
 const app = express();
+app.use(express.json());
 const port = 3000;
 
-app.use(express.json());
-
-app.post('/', (req, res) => {
+app.post('/create', (req, res) => {
     var businessEmail = req.body.email
     createSite().then(response => {
         if (response.status != 200) {
@@ -25,3 +25,5 @@ app.post('/', (req, res) => {
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`)
 });
+
+// export default handler = serverless(app);

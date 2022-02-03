@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import 'dotenv/config'
-import { createContact } from './mailchimp_api.js';
+import { createContact, sendEmail } from './mailchimp_api.js';
 
 var options = {
     'method': 'POST',
@@ -42,5 +42,6 @@ export function updateSite(siteName, businessData) {
 export function getPreviewLink(siteName, email) {
     var link = `${process.env.PREVIEW_HOST}${siteName}?device=desktop`
     createContact(email)
+    sendEmail(email, link)
     return link
 }
