@@ -22,24 +22,26 @@ var serviceList = {
 
 
 
-function createSite() {
+function createSite(businessEmail, biz, services) {
     var url = 'https://api.duda.co/api/sites/multiscreen/create'
     options.body = JSON.stringify({
         "template_id": process.env.TEMPLATE_ID
     })
-
-    return fetch(url, options)
-        .then(response => {
-            return response.json().then(data => ({
-                status: response.status,
-                data
-            }))
+    fetch(url, options)
+        .then(response => response.json())
+        .then(data => {
+            var siteName = data.site_name
+            console.log(siteName)
+            updateSite(siteName, biz).then(response => {
+                addServices(siteName, services)
+                getPreviewLink(siteName, businessEmail)
+            })
         })
         .catch(error => console.log('error', error));
 
 }
 
-function updateSite(siteName, businessData, services) {
+function updateSite(siteName, businessData) {
     var url = `https://api.duda.co/api/sites/multiscreen/${siteName}/content`
     options.body = JSON.stringify(businessData)
 
@@ -86,4 +88,4 @@ function getPreviewLink(siteName, email) {
     return link
 }
 
-module.exports = { createSite, updateSite, addServices, getPreviewLink }
+module.exports = { createSite }
