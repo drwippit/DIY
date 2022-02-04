@@ -6,11 +6,11 @@
     },
     "provider": {
       "name": "aws",
-      "runtime": "nodejs12.x",
+      "runtime": "nodejs14.x",
       "region": "us-east-1",
       "environment": {
         "DUDA_API_KEY": "Basic ZTFiMDVjODE4YTpnN0J5WUxCNjl1TzU",
-        "PREVIEW_HOST": "http://riseagency.responsivewebsitebuilder.io/preview/",
+        "PREVIEW_HOST": "http://rise-agency.responsivewebsitebuilder.io/preview/",
         "TEMPLATE_ID": "1006121",
         "MC_API_KEY": "Bearer 571fb928e51e280eec184d7d9f6f1711-us14",
         "MC_LIST_ID": "fd7e6125a2",
@@ -95,7 +95,7 @@
           "AppLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/agency-plus-dev-app"
+              "LogGroupName": "/aws/lambda/agency-plus-prod-app"
             }
           },
           "IamRoleLambdaExecution": {
@@ -124,7 +124,7 @@
                       "-",
                       [
                         "agency-plus",
-                        "dev",
+                        "prod",
                         "lambda"
                       ]
                     ]
@@ -140,7 +140,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/agency-plus-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/agency-plus-prod*:*"
                           }
                         ]
                       },
@@ -151,7 +151,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/agency-plus-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/agency-plus-prod*:*:*"
                           }
                         ]
                       }
@@ -165,7 +165,7 @@
                   "-",
                   [
                     "agency-plus",
-                    "dev",
+                    "prod",
                     {
                       "Ref": "AWS::Region"
                     },
@@ -228,11 +228,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/agency-plus/dev/1643939473736-2022-02-04T01:51:13.736Z/agency-plus.zip"
+                "S3Key": "serverless/agency-plus/prod/1643952759868-2022-02-04T05:32:39.868Z/agency-plus.zip"
               },
               "Handler": "s_app.handler",
-              "Runtime": "nodejs12.x",
-              "FunctionName": "agency-plus-dev-app",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "agency-plus-prod-app",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
@@ -257,20 +257,20 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionq9FCy1kdMFH4bfJs3ykbmvzDL7n96IIFhffP7lQ2S0": {
+          "AppLambdaVersion5CYZRRuxdysTOrxxeFitdVMJzxUxUBnSqnsl0Ga9fA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "8oORG5WxT9HBhV8y4VhvWa5JvMVC93cScdes69+i5rk="
+              "CodeSha256": "taXNaVxMk0/tdOZgHqhuCgN3ubXo09xq500vh5UzO1o="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-agency-plus",
+              "Name": "prod-agency-plus",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -389,13 +389,13 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1643939464792": {
+          "ApiGatewayDeployment1643952751834": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               },
-              "StageName": "dev"
+              "StageName": "prod"
             },
             "DependsOn": [
               "ApiGatewayMethodAny",
@@ -442,7 +442,7 @@
           "ApiGatewayLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/api-gateway/agency-plus-dev"
+              "LogGroupName": "/aws/api-gateway/agency-plus-prod"
             }
           },
           "CustomApiGatewayAccountCloudWatchRole": {
@@ -482,7 +482,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "dev",
+                        "prod",
                         "agency-plus",
                         "custom-resources-lambda"
                       ]
@@ -548,9 +548,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/agency-plus/dev/1643939473736-2022-02-04T01:51:13.736Z/custom-resources.zip"
+                "S3Key": "serverless/agency-plus/prod/1643952759868-2022-02-04T05:32:39.868Z/custom-resources.zip"
               },
-              "FunctionName": "agency-plus-dev-custom-resource-apigw-cw-role",
+              "FunctionName": "agency-plus-prod-custom-resource-apigw-cw-role",
               "Handler": "api-gateway-cloud-watch-role/handler.handler",
               "MemorySize": 1024,
               "Runtime": "nodejs14.x",
@@ -569,7 +569,7 @@
           "CWLSubFilterAppLogGroupUsEast1": {
             "Type": "AWS::Logs::SubscriptionFilter",
             "Properties": {
-              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:566b381f-a91e-4967-8104-1653093150be#1qRyN6nJgCPdXWsc7j#agency-plus#dev",
+              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:566b381f-a91e-4967-8104-1653093150be#1qRyN6nJgCPdXWsc7j#agency-plus#prod",
               "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
               "LogGroupName": {
                 "Ref": "AppLogGroup"
@@ -579,7 +579,7 @@
           "CWLSubFilterApiGatewayLogGroupUsEast1": {
             "Type": "AWS::Logs::SubscriptionFilter",
             "Properties": {
-              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:566b381f-a91e-4967-8104-1653093150be#1qRyN6nJgCPdXWsc7j#agency-plus#dev",
+              "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:566b381f-a91e-4967-8104-1653093150be#1qRyN6nJgCPdXWsc7j#agency-plus#prod",
               "FilterPattern": "\"SLS_ACCESS_LOG\"",
               "LogGroupName": {
                 "Ref": "ApiGatewayLogGroup"
@@ -593,7 +593,7 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-agency-plus-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-agency-plus-prod-ServerlessDeploymentBucketName"
             }
           },
           "EnterpriseLogAccessIamRole": {
@@ -604,16 +604,16 @@
               ]
             },
             "Export": {
-              "Name": "sls-agency-plus-dev-EnterpriseLogAccessIamRole"
+              "Name": "sls-agency-plus-prod-EnterpriseLogAccessIamRole"
             }
           },
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionq9FCy1kdMFH4bfJs3ykbmvzDL7n96IIFhffP7lQ2S0"
+              "Ref": "AppLambdaVersion5CYZRRuxdysTOrxxeFitdVMJzxUxUBnSqnsl0Ga9fA"
             },
             "Export": {
-              "Name": "sls-agency-plus-dev-AppLambdaFunctionQualifiedArn"
+              "Name": "sls-agency-plus-prod-AppLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -634,12 +634,12 @@
                   {
                     "Ref": "AWS::URLSuffix"
                   },
-                  "/dev"
+                  "/prod"
                 ]
               ]
             },
             "Export": {
-              "Name": "sls-agency-plus-dev-ServiceEndpoint"
+              "Name": "sls-agency-plus-prod-ServiceEndpoint"
             }
           }
         }
@@ -754,13 +754,13 @@
           "MD_API_KEY": "5Afz6lHutKLKm4Qga1UT2A",
           "MD_TEMPLATE_NAME": "preview-link"
         },
-        "name": "agency-plus-dev-app",
+        "name": "agency-plus-prod-app",
         "package": {},
         "memory": 1024,
         "timeout": 6,
-        "runtime": "nodejs12.x",
+        "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionq9FCy1kdMFH4bfJs3ykbmvzDL7n96IIFhffP7lQ2S0"
+        "versionLogicalId": "AppLambdaVersion5CYZRRuxdysTOrxxeFitdVMJzxUxUBnSqnsl0Ga9fA"
       }
     },
     "configValidationMode": "warn",
@@ -786,7 +786,7 @@
     "artifact": "/Users/sofiaozelkan/Documents/ppc/.serverless/agency-plus.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/agency-plus/dev/1643939473736-2022-02-04T01:51:13.736Z",
+    "artifactDirectoryName": "serverless/agency-plus/prod/1643952759868-2022-02-04T05:32:39.868Z",
     "artifact": "agency-plus.zip"
   }
 }

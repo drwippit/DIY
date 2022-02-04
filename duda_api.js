@@ -1,6 +1,7 @@
-import fetch from 'node-fetch';
-import 'dotenv/config'
-import { createContact, sendEmail } from './mailchimp_api.js';
+const fetch = (...args) =>
+    import ('node-fetch').then(({ default: fetch }) => fetch(...args));
+require('dotenv').config()
+const mailChimp = require("./mailchimp_api.js");
 
 var options = {
     'method': 'POST',
@@ -20,7 +21,8 @@ var serviceList = {
 }
 
 
-export function createSite() {
+
+function createSite() {
     var url = 'https://api.duda.co/api/sites/multiscreen/create'
     options.body = JSON.stringify({
         "template_id": process.env.TEMPLATE_ID
@@ -37,26 +39,24 @@ export function createSite() {
 
 }
 
-export function updateSite(siteName, businessData) {
+function updateSite(siteName, businessData, services) {
     var url = `https://api.duda.co/api/sites/multiscreen/${siteName}/content`
     options.body = JSON.stringify(businessData)
 
     return fetch(url, options)
         .then(response => {
             if (!response.ok) {
-                // console.log(response.status)
-                console.log(response.statusText + "status" + response.status)
+                console.log("status " + response.status)
             }
         })
         .catch(error => console.log('error', error));
 }
 
-export function addServices(siteName, services) {
+async function addServices(siteName, services) {
     for (let i = 0; i < services.length; i++) {
         var service = services[i]
         var row = serviceList[service]
-
-        updateCollection(siteName, row).then(response => {
+        await updateCollection(siteName, row).then(response => {
             if (response.status != 200) {
                 console.log(response)
             }
@@ -79,9 +79,11 @@ function updateCollection(siteName, row) {
         .catch(error => console.log('error', error));
 }
 
-export function getPreviewLink(siteName, email) {
+function getPreviewLink(siteName, email) {
     var link = `${process.env.PREVIEW_HOST}${siteName}?device=desktop`
-    createContact(email)
-    sendEmail(email, link)
+    mailChimp.createContact(email)
+    mailChimp.sendEmail(email, link)
     return link
 }
+
+module.exports = { createSite, updateSite, addServices, getPreviewLink }

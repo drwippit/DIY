@@ -1,9 +1,11 @@
-import fetch from 'node-fetch';
-import 'dotenv/config'
+// import fetch from 'node-fetch';
+const fetch = (...args) =>
+    import ('node-fetch').then(({ default: fetch }) => fetch(...args));
+require('dotenv').config()
 
 
 
-export function createContact(emailAddress) {
+function createContact(emailAddress) {
     var options = {
         'method': 'POST',
         'headers': {
@@ -32,7 +34,7 @@ export function createContact(emailAddress) {
 
 }
 
-export function sendEmail(email, previewLink) {
+function sendEmail(email, previewLink) {
     var options = {
         'method': 'POST',
         'headers': {
@@ -66,3 +68,5 @@ export function sendEmail(email, previewLink) {
         }).catch(error => console.log('error', error));
 
 }
+
+module.exports = { createContact, sendEmail }

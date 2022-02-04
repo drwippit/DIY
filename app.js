@@ -1,26 +1,29 @@
-import serverless from 'serverless-http'
-import express from 'express';
-import 'dotenv/config'
-import { createSite, updateSite, getPreviewLink, addServices } from './duda_api.js';
+const serverless = require('serverless-http');
+const express = require('express')
+require('dotenv').config()
+const cors = require('cors')
+const dudaApi = require('./duda_api.js');
+
 const app = express();
+app.use(cors())
 app.use(express.json());
 // const port = 3000;
 
 app.get('/', (req, res) => res.send('Agency+ PPC'))
 
 app.post('/create', (req, res) => {
-
     var businessEmail = req.body.email
-    createSite().then(response => {
+    dudaApi.createSite().then(response => {
         if (response.status != 200) {
             return response
         } else {
             var siteName = response.data.site_name
-            updateSite(siteName, req.body.site_data)
-            addServices(siteName, req.body.services)
+            dudaApi.updateSite(siteName, req.body.site_data, req.body.services).then(response => {
+                dudaApi.addServices(siteName, req.body.services)
+            })
             return {
                 status: 200,
-                data: getPreviewLink(siteName, businessEmail)
+                data: dudaApi.getPreviewLink(siteName, businessEmail)
             }
         }
     }).then(data => res.status(data.status).send(data.data))
@@ -30,4 +33,4 @@ app.post('/create', (req, res) => {
 //     console.log(`app listening at http://localhost:${port}`)
 // });
 
-export default handler = serverless(app);
+module.exports.handler = serverless(app);
