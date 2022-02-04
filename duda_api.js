@@ -22,23 +22,17 @@ var serviceList = {
 
 
 
-function createSite(businessEmail, biz, services) {
+function createSite() {
     var url = 'https://api.duda.co/api/sites/multiscreen/create'
     options.body = JSON.stringify({
         "template_id": process.env.TEMPLATE_ID
     })
-    fetch(url, options)
-        .then(response => response.json())
-        .then(data => {
-            var siteName = data.site_name
-            console.log(siteName)
-            updateSite(siteName, biz).then(response => {
-                addServices(siteName, services)
-                getPreviewLink(siteName, businessEmail)
-            })
+
+    return fetch(url, options)
+        .then(response => {
+            return response.json()
         })
         .catch(error => console.log('error', error));
-
 }
 
 function updateSite(siteName, businessData) {
@@ -60,10 +54,13 @@ async function addServices(siteName, services) {
         var row = serviceList[service]
         await updateCollection(siteName, row).then(response => {
             if (response.status != 200) {
-                console.log(response)
+                console.log(`${service}: ${response}`)
             }
         })
     }
+    return new Promise(function(resolve, reject) {
+        resolve('added services to site');
+    });
 }
 
 
@@ -81,11 +78,14 @@ function updateCollection(siteName, row) {
         .catch(error => console.log('error', error));
 }
 
-function getPreviewLink(siteName, email) {
+async function getPreviewLink(siteName, email) {
     var link = `${process.env.PREVIEW_HOST}${siteName}?device=desktop`
-    mailChimp.createContact(email)
-    mailChimp.sendEmail(email, link)
+    await mailChimp.createContact(email).then(response => {
+        console.log(response)
+        mailChimp.sendEmail(email, link).then(response => console.log(response))
+    })
+
     return link
 }
 
-module.exports = { createSite }
+module.exports = { createSite, updateSite, addServices, getPreviewLink }

@@ -15,21 +15,26 @@ app.post('/create', (req, res) => {
     var businessEmail = req.body.email
     var siteData = req.body.site_data
     var services = req.body.services
+
     dudaApi.createSite(businessEmail, siteData, services)
-        // .then(response => {
-        //         // if (response.status != 200) {
-        //         //     return response
-        //         // } else {
-        //         //     var siteName = response.data.site_name
-        //         //     dudaApi.updateSite(siteName, req.body.site_data).then(response => {
-        //         //         dudaApi.addServices(siteName, req.body.services)
-        //         //     })
-        //         // return {
-        //         //     status: 200,
-        //         //     // data: dudaApi.getPreviewLink(siteName, businessEmail)
-        //         // }
-        //     }
-        // }).then(data => res.status(data.status).send(data.data))
+        .then((data) => {
+            var siteName = data.site_name
+            return dudaApi.updateSite(siteName, siteData).then(response => {}).then(response => {
+                return dudaApi.addServices(siteName, services).then(respones => {
+                    var a = dudaApi.getPreviewLink(siteName, businessEmail)
+                    console.log(a)
+                    return {
+                        status: 200,
+                        data: dudaApi.getPreviewLink(siteName, businessEmail)
+                    }
+                })
+
+            })
+
+            .catch(error => console.log('error', error));
+
+        })
+        .then(data => res.status(data.status).send(data.data))
 })
 
 app.listen(port, () => {

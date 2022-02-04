@@ -5,12 +5,13 @@ require('dotenv').config()
 
 
 
-function createContact(emailAddress) {
+async function createContact(emailAddress) {
     var options = {
         'method': 'POST',
         'headers': {
             'Authorization': process.env.MC_API_KEY,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'credentials': 'include'
         },
         'body': JSON.stringify({
             "email_address": emailAddress,
@@ -23,7 +24,7 @@ function createContact(emailAddress) {
 
 
     var url = `https://us14.api.mailchimp.com/3.0/lists/${process.env.MC_LIST_ID}/members`
-    return fetch(url, options)
+    return await fetch(url, options)
         .then(response => {
             return response.json().then(data =>
                 ({
@@ -34,11 +35,12 @@ function createContact(emailAddress) {
 
 }
 
-function sendEmail(email, previewLink) {
+async function sendEmail(email, previewLink) {
     var options = {
         'method': 'POST',
         'headers': {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'credentials': 'include'
         },
         'body': JSON.stringify({
             "key": process.env.MD_API_KEY,
@@ -58,7 +60,7 @@ function sendEmail(email, previewLink) {
     }
     var url = 'https://mandrillapp.com/api/1.0/messages/send-template'
 
-    return fetch(url, options)
+    return await fetch(url, options)
         .then(response => {
             return response.json().then(data =>
                 ({
