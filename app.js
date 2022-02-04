@@ -1,10 +1,12 @@
-// import serverless from 'serverless-http';
+import serverless from 'serverless-http'
 import express from 'express';
 import 'dotenv/config'
 import { createSite, updateSite, getPreviewLink, addServices } from './duda_api.js';
 const app = express();
 app.use(express.json());
-const port = 3000;
+// const port = 3000;
+
+app.get('/', (req, res) => res.send('Agency+ PPC'))
 
 app.post('/create', (req, res) => {
 
@@ -24,8 +26,8 @@ app.post('/create', (req, res) => {
     }).then(data => res.status(data.status).send(data.data))
 })
 
-app.listen(port, () => {
-    console.log(`app listening at http://localhost:${port}`)
-});
+// app.listen(port, () => {
+//     console.log(`app listening at http://localhost:${port}`)
+// });
 
-// export default handler = serverless(app);
+export default handler = serverless(app);

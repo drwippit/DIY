@@ -1,0 +1,32 @@
+org: sofiaclara93
+app: agency-plus
+	
+service: agency-plus
+ 
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  environment:
+    DUDA_API_KEY: Basic ZTFiMDVjODE4YTpnN0J5WUxCNjl1TzU
+    PREVIEW_HOST: http://riseagency.responsivewebsitebuilder.io/preview/
+    TEMPLATE_ID: 1006121
+    MC_API_KEY: Bearer 571fb928e51e280eec184d7d9f6f1711-us14
+    MC_LIST_ID: fd7e6125a2
+    MD_API_KEY: 5Afz6lHutKLKm4Qga1UT2A
+    MD_TEMPLATE_NAME: preview-link
+ 
+functions:
+  app:
+    handler: app.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+    environment:
+      DUDA_API_KEY: Basic ZTFiMDVjODE4YTpnN0J5WUxCNjl1TzU
+      PREVIEW_HOST: http://riseagency.responsivewebsitebuilder.io/preview/
+      TEMPLATE_ID: 1006121
+      MC_API_KEY: Bearer 571fb928e51e280eec184d7d9f6f1711-us14
+      MC_LIST_ID: fd7e6125a2
+      MD_API_KEY: 5Afz6lHutKLKm4Qga1UT2A
+      MD_TEMPLATE_NAME: preview-link
