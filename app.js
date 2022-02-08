@@ -7,7 +7,7 @@ const dudaApi = require('./duda_api.js');
 const app = express();
 app.use(cors())
 app.use(express.json());
-const port = 3000;
+// const port = 3000;
 
 app.get('/', (req, res) => res.send('Agency+ PPC'))
 
@@ -20,13 +20,14 @@ app.post('/create', (req, res) => {
         .then((data) => {
             var siteName = data.site_name
             return dudaApi.updateSite(siteName, siteData).then(response => {}).then(response => {
-                return dudaApi.addServices(siteName, services).then(respones => {
-                    var a = dudaApi.getPreviewLink(siteName, businessEmail)
-                    console.log(a)
-                    return {
-                        status: 200,
-                        data: dudaApi.getPreviewLink(siteName, businessEmail)
-                    }
+                return dudaApi.addServices(siteName, services).then(response => {
+                    return dudaApi.getPreviewLink(siteName, businessEmail).then(response => {
+                        console.log(response)
+                        return {
+                            status: 200,
+                            data: response
+                        }
+                    })
                 })
 
             })
@@ -37,8 +38,8 @@ app.post('/create', (req, res) => {
         .then(data => res.status(data.status).send(data.data))
 })
 
-app.listen(port, () => {
-    console.log(`app listening at http://localhost:${port}`)
-});
+// app.listen(port, () => {
+//     console.log(`app listening at http://localhost:${port}`)
+// });
 
 module.exports.handler = serverless(app);

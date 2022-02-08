@@ -1,11 +1,10 @@
-// import fetch from 'node-fetch';
 const fetch = (...args) =>
     import ('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config()
 
 
 
-async function createContact(emailAddress) {
+function createContact(emailAddress) {
     var options = {
         'method': 'POST',
         'headers': {
@@ -24,7 +23,7 @@ async function createContact(emailAddress) {
 
 
     var url = `https://us14.api.mailchimp.com/3.0/lists/${process.env.MC_LIST_ID}/members`
-    return await fetch(url, options)
+    return fetch(url, options)
         .then(response => {
             return response.json().then(data =>
                 ({
@@ -35,7 +34,7 @@ async function createContact(emailAddress) {
 
 }
 
-async function sendEmail(email, previewLink) {
+function sendEmail(email, previewLink) {
     var options = {
         'method': 'POST',
         'headers': {
@@ -60,7 +59,7 @@ async function sendEmail(email, previewLink) {
     }
     var url = 'https://mandrillapp.com/api/1.0/messages/send-template'
 
-    return await fetch(url, options)
+    return fetch(url, options)
         .then(response => {
             return response.json().then(data =>
                 ({

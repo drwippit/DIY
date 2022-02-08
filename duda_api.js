@@ -12,12 +12,14 @@ var options = {
 }
 
 var serviceList = {
-    "boarding": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/boarding-1.png", "alt-text": "boarding" } },
-    "wellness": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/wellness-1.png", "alt-text": "wellness" } },
-    "emergencies": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/emergencies-1.png", "alt-text": "emergencies" } },
-    "medicine": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/general-1.png", "alt-text": "medicine" } },
-    "surgeries": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/surgeries-1.png", "alt-text": "surgeries" } },
-    "grooming": { "data": { "image": "https://irp.cdn-website.com/d237e48d/dms3rep/multi/grooming-1.png", "alt-text": "grooming" } }
+    "boarding": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/boarding.svg", "alt-text": "boarding" } },
+    "wellness": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/wellness.svg", "alt-text": "wellness" } },
+    "emergencies": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/emergencies.svg", "alt-text": "emergencies" } },
+    "medicine": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/medicine.svg", "alt-text": "medicine" } },
+    "surgeries": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/surgeries.svg", "alt-text": "surgeries" } },
+    "grooming": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/grooming.svg", "alt-text": "grooming" } },
+    "dental": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/dental.svg", "alt-text": "dental" } },
+    "vaccination": { "data": { "image": "https://irp.cdn-website.com/3f896bfe/dms3rep/multi/vaccinations.svg", "alt-text": "vaccination" } }
 }
 
 
@@ -80,12 +82,15 @@ function updateCollection(siteName, row) {
 
 async function getPreviewLink(siteName, email) {
     var link = `${process.env.PREVIEW_HOST}${siteName}?device=desktop`
-    await mailChimp.createContact(email).then(response => {
+    return await mailChimp.createContact(email).then(response => {
         console.log(response)
-        mailChimp.sendEmail(email, link).then(response => console.log(response))
+        return mailChimp.sendEmail(email, link).then(response => {
+            console.log(response)
+            return link
+        })
     })
 
-    return link
+
 }
 
 module.exports = { createSite, updateSite, addServices, getPreviewLink }
